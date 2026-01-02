@@ -1,16 +1,29 @@
-# orbit_track
+🛰️ OrbitTrack
+A Flutter-based mobile application for real-time satellite tracking and TLE (Two-Line Element) data visualization, powered by NASA's public API.
+📱 Overview
+OrbitTrack provides an intuitive interface for monitoring satellites and accessing orbital information. Built with Human-Computer Interaction (HCI) principles at its core, the app transforms complex TLE data into an accessible, user-friendly experience through a clean dark-themed interface with high-contrast elements and smooth animations.
+✨ Key Features
 
-A new Flutter project.
+Real-time Satellite Tracking – Browse and monitor satellites with up-to-date orbital data
+TLE Data Visualization – Display NASA TLE information in a readable, structured format
+Intuitive Navigation – Clear labeling and consistent UI components across all screens
+Dark Theme Design – Accessibility-focused interface with vibrant accents and excellent readability
+Responsive Feedback – Immediate visual responses to user interactions
+Orbital Information – Detailed satellite data including names, status, and orbital values
 
-## Getting Started
+🛠️ Tech Stack
 
-This project is a starting point for a Flutter application.
+Framework: Flutter
+Language: Dart
+API: NASA TLE Data API
+Design: Material Design with custom dark theme
+State Management: Provider
 
-A few resources to get you started if this is your first Flutter project:
+📐 Design Principles
+OrbitTrack follows core HCI principles to ensure optimal usability:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Visibility – Clear layout with highlighted information and vibrant design elements
+Feedback – Immediate visual responses to user actions, loading states, and error handling
+Consistency – Unified UI components, text styles, and navigation elements across all screens
+Accessibility – High-contrast dark theme with readable text and meaningful icons
+Efficiency – Structured information display for easy comprehension of complex data
