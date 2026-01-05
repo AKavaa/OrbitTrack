@@ -35,8 +35,13 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(backgroundColor: Colors.white, title: Text(widget.title)),
       body: Center(
         child: Column(
-          mainAxisAlignment: .center,
-          children: [const Text('You have pushed the button this many times:')],
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Welcome to Orbit Track!',
+              style: TextStyle(color: Colors.white),
+            ),
+          ],
         ),
       ),
     );
