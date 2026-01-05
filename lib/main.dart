@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             const Text(
               'Welcome to Orbit Track!',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white, fontSize: 22),
             ),
           ],
         ),
