@@ -21,11 +21,16 @@ class Satellite {
   // Documentation reference: https://dart.dev/language/constructors#factory-constructors
   factory Satellite.fromJson(Map<String, dynamic> json) {
     return Satellite(
-      satelliteId: json['satelliteID'] as int,
-      name: json['name'] as String,
-      date: json['date'] as String,
-      line1: json['line1'] as String,
-      line2: json['line2'] as String,
+      // If SatelliteId is null, default to 0
+      // int? this could be null and the ? symbol makes it nullable
+      satelliteId:
+          json['satelliteID'] as int? ??
+          0, // if its null, this -> ?? -> means use 0 rather than crash the program
+      //Documentation reference: https://dart.dev/null-safety
+      name: json['name'] as String? ?? 'Null',
+      date: json['date'] as String? ?? '',
+      line1: json['line1'] as String? ?? '',
+      line2: json['line2'] as String? ?? '',
     );
   }
 }
