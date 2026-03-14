@@ -71,11 +71,14 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: Colors.blue[900],
       appBar: AppBar(backgroundColor: Colors.white, title: Text(widget.title)),
-      body: satellites.isEmpty
+      body:
+          satellites
+              .isEmpty // if is empty will show a circular progress indicator in the middle of the screen
           ? const Center(
               child: CircularProgressIndicator(),
             ) // shows loading spinner while the API fetches the data
           : ListView.builder(
+              // displays all the satellites from the API
               itemCount: satellites.length,
               itemBuilder: (context, index) {
                 final satellite = satellites[index];
