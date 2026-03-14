@@ -71,17 +71,41 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: Colors.blue[900],
       appBar: AppBar(backgroundColor: Colors.white, title: Text(widget.title)),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Welcome to Orbit Track!',
-              style: TextStyle(color: Colors.white, fontSize: 22),
+      body: satellites.isEmpty
+          ? const Center(
+              child: CircularProgressIndicator(),
+            ) // shows loading spinner while the API fetches the data
+          : ListView.builder(
+              itemCount: satellites.length,
+              itemBuilder: (context, index) {
+                final satellite = satellites[index];
+
+                return Card(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 8,
+                  ),
+                  color: Colors.blue[850],
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.satellite_alt,
+                      color: Colors.blueGrey,
+                    ), // in build satellite icon with white color
+                    title: Text(
+                      satellite.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueGrey,
+                      ),
+                    ),
+                    subtitle: Text(
+                      'ID ${satellite.satelliteId} ',
+                      style: TextStyle(color: Colors.blueGrey[400]),
+                    ),
+                  ),
+                );
+              },
             ),
-          ],
-        ),
-      ),
     );
   }
 }
