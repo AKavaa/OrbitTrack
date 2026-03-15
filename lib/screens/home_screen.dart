@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert'; //converts JSON responses to text
 import 'package:http/http.dart' as http; // library for making HTTP requests
 import '../satellite.dart'; // Imports the Satellite model class
+import 'detail_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -90,6 +91,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   color: Colors.blue[850],
                   child: ListTile(
+                    // OnTap allows the user to press each satellite and check its details
+                    // Official Documentation: https://docs.flutter.dev/cookbook/navigation/navigation-basics
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DetailedScreen(satellite: satellite),
+                        ),
+                      );
+                    },
                     leading: const Icon(
                       Icons.satellite_alt,
                       color: Colors.blueGrey,
