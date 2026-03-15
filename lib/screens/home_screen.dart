@@ -4,36 +4,14 @@ import 'package:http/http.dart' as http; // library for making HTTP requests
 import '../satellite.dart'; // Imports the Satellite model class
 import 'detail_screen.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Orbit Track',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Orbit Track'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   List<Satellite> satellites =
       []; // empty list which will hold all the satellites once the API responds
   @override
@@ -72,7 +50,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[900],
-      appBar: AppBar(backgroundColor: Colors.white, title: Text(widget.title)),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: const Text('Orbit Track'),
+      ),
       body:
           satellites
               .isEmpty // if is empty will show a circular progress indicator in the middle of the screen
