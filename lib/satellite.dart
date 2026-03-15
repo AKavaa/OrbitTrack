@@ -33,4 +33,30 @@ class Satellite {
       line2: json['line2'] as String? ?? '',
     );
   }
+  // Using getters to get the real numbers and real data from the API,
+  // The data is in fixed width so its more accurate to collect the data
+  // we use double because the orbital data are decimal numbers
+  // we need only the line2 because there is the data that we need for the orbital parameters, the numbers in the brackets is the start and the end of the parameters we need to be displayed
+  // trim is to not count any whitespaces, basically removing them, and ?? 0.0 is if null or data isnt fetced correctly to retrieve 0.0 instead of null
+
+  double get inclination {
+    // inclination is at characters 8 - 16
+    return double.tryParse(line2.substring(8, 16).trim()) ?? 0.0;
+  }
+
+  double get raan {
+    // raan is at characters 17 - 25
+    return double.tryParse(line2.substring(17, 25).trim()) ?? 0.0;
+  }
+
+  double get eccentricity {
+    // eccentricity is at characters 26 - 33, added 0. cause the value implied a decimal point and without it the number is wrongly fetched
+    // for example, was 2464 -> now is 0.0002464, more accurate
+    return double.tryParse('0.${line2.substring(26, 33).trim()}') ?? 0.0;
+  }
+
+  double get meanMotion {
+    // meanMotion is at characters 52 - 63
+    return double.tryParse(line2.substring(52, 63).trim()) ?? 0.0;
+  }
 }
