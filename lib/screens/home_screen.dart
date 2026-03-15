@@ -64,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       print('Loaded ${satellites.length} satellites');
       print('First satellite ${satellites[0].name}');
+      print(' ${satellites[0].satelliteId}');
     }
   }
 
