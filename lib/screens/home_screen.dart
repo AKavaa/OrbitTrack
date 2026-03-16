@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ) // shows loading spinner while the API fetches the data
           : ListView.builder(
               // displays all the satellites from the API
-              itemCount: satellites.length,
+              itemCount: satellites.length, // all the satellites
               itemBuilder: (context, index) {
                 final satellite = satellites[index];
 
