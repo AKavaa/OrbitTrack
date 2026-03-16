@@ -14,16 +14,34 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Satellite> satellites =
       []; // empty list which will hold all the satellites once the API responds
+
+  // Official Documentation: https://api.flutter.dev/flutter/widgets/TextEditingController-class.html
+  final TextEditingController searchController =
+      TextEditingController(); // controls the searching field
+
+  String searchString = 'ISS'; // storing the default on app load string
+
+  // dispose runs when the screen is being removed from thee memory
+  // prevents memory leaks when the searchController is cleaned up
+  // Official Documentation: https://api.flutter.dev/flutter/widgets/State/dispose.html
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
   @override
   void initState() {
     super
         .initState(); // this piece of code is always required, its initialising the parent class
-    fetchSatellites();
+    fetchSatellites(searchString);
   }
 
-  Future<void> fetchSatellites() async {
+  Future<void> fetchSatellites(String search) async {
     // async function to allown the program to start a long running task
-    final url = Uri.parse('https://tle.ivanstanojevic.me/api/tle?search=ISS');
+    final url = Uri.parse(
+      'https://tle.ivanstanojevic.me/api/tle?search=$search', // using the dynamic variable
+    );
 
     final response = await http.get(
       url,
@@ -40,9 +58,9 @@ class _HomeScreenState extends State<HomeScreen> {
             .toList();
       });
 
-      print('Loaded ${satellites.length} satellites');
-      print('First satellite ${satellites[0].name}');
-      print(' ${satellites[0].satelliteId}');
+      // print('Loaded ${satellites.length} satellites');
+      // print('First satellite ${satellites[0].name}');
+      // print(' ${satellites[0].satelliteId}');
     }
   }
 
