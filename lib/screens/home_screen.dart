@@ -34,7 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super
         .initState(); // this piece of code is always required, its initialising the parent class
-    fetchSatellites(searchString);
+    fetchSatellites(
+      searchString,
+    ); // passing the default search query when app loads
   }
 
   Future<void> fetchSatellites(String search) async {
@@ -72,55 +74,85 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.white,
         title: const Text('Orbit Track'),
       ),
-      body:
-          satellites
-              .isEmpty // if is empty will show a circular progress indicator in the middle of the screen
-          ? const Center(
-              child: CircularProgressIndicator(),
-            ) // shows loading spinner while the API fetches the data
-          : ListView.builder(
-              // displays all the satellites from the API
-              itemCount: satellites.length, // all the satellites
-              itemBuilder: (context, index) {
-                final satellite = satellites[index];
-
-                return Card(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 8,
+      body: Column(
+        children: [
+          const SizedBox(height: 8),
+          // Wrap places the widgets next to each other, Unlike Row whihc would crash the UI
+          // Official Documentation: https://api.flutter.dev/flutter/widgets/Wrap-class.html
+          Wrap(
+            // Wrap creates a row of quich search buttons from a list with the Satellite names
+            // .map() acts as a loop and goes through the list and creates and ElevatedButton for each name index
+            // searchController.text updats the search bar visually
+            // fetchSatellites(satelliteChoice) calls the API with the selected satellite's name
+            spacing: 5,
+            children: ['ISS', 'STARLINK', 'NOAA', 'HUBBLE']
+                .map(
+                  (satelliteChoice) => ElevatedButton(
+                    onPressed: () {
+                      searchController.text = satelliteChoice;
+                      fetchSatellites(satelliteChoice);
+                    },
+                    child: Text(satelliteChoice),
                   ),
-                  color: Colors.blue[850],
-                  child: ListTile(
-                    // OnTap allows the user to press each satellite and check its details
-                    // Official Documentation: https://docs.flutter.dev/cookbook/navigation/navigation-basics
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              DetailedScreen(satellite: satellite),
+                )
+                .toList(),
+          ),
+
+          // Without expanded, ListView.builder would have infinite height inside the column which would also
+          // crash the program. Expanded tell the program to take all the space after the Wrap
+          Expanded(
+            child:
+                satellites
+                    .isEmpty // if is empty will show a circular progress indicator in the middle of the screen
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  ) // shows loading spinner while the API fetches the data
+                : ListView.builder(
+                    // displays all the satellites from the API
+                    itemCount: satellites.length, // all the satellites
+                    itemBuilder: (context, index) {
+                      final satellite = satellites[index];
+
+                      return Card(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 8,
+                        ),
+                        color: Colors.blue[850],
+                        child: ListTile(
+                          // OnTap allows the user to press each satellite and check its details
+                          // Official Documentation: https://docs.flutter.dev/cookbook/navigation/navigation-basics
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    DetailedScreen(satellite: satellite),
+                              ),
+                            );
+                          },
+                          leading: const Icon(
+                            Icons.satellite_alt,
+                            color: Colors.blueGrey,
+                          ), // in build satellite icon with white color
+                          title: Text(
+                            satellite.name,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blueGrey,
+                            ),
+                          ),
+                          subtitle: Text(
+                            'ID ${satellite.satelliteId} ',
+                            style: TextStyle(color: Colors.blueGrey[400]),
+                          ),
                         ),
                       );
                     },
-                    leading: const Icon(
-                      Icons.satellite_alt,
-                      color: Colors.blueGrey,
-                    ), // in build satellite icon with white color
-                    title: Text(
-                      satellite.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blueGrey,
-                      ),
-                    ),
-                    subtitle: Text(
-                      'ID ${satellite.satelliteId} ',
-                      style: TextStyle(color: Colors.blueGrey[400]),
-                    ),
                   ),
-                );
-              },
-            ),
+          ),
+        ],
+      ),
     );
   }
 }
