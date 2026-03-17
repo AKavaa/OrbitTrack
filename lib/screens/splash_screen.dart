@@ -77,9 +77,12 @@ class SplashScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const HomeScreen()),
+                    MaterialPageRoute(
+                      builder: (context) => const HomeScreen(),
+                    ), // navigates the user to the HomeScreen
                   );
                 },
+
                 child: const Text('Explore Satellites!'),
               ),
             ),
