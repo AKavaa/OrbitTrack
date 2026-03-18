@@ -77,6 +77,38 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           const SizedBox(height: 8),
+
+          // TextField was adapted from Flutter Official Docs: https://api.flutter.dev/flutter/material/TextField-class.html
+          //OnSubmitted is activated when the user adds some words or a character inside the input bar
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: TextField(
+              controller: searchController,
+
+              style: const TextStyle(
+                color: Colors.white,
+              ), // this controls the color of the text inside teh input field
+              decoration: InputDecoration(
+                labelStyle: const TextStyle(
+                  color: Colors.white,
+                ), // change the color of the label
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                labelText: 'Search Satellites...',
+                prefixIcon: const Icon(
+                  Icons.search,
+                  color: Colors.white,
+                ), // adding a search icon
+              ),
+
+              onSubmitted:
+                  (
+                    satelliteValue,
+                  ) => // satelliteValue is whatever is typed and .trim() removes any whitespaces
+                      fetchSatellites(satelliteValue.trim()),
+            ),
+          ),
           // Wrap places the widgets next to each other, Unlike Row whihc would crash the UI
           // Official Documentation: https://api.flutter.dev/flutter/widgets/Wrap-class.html
           Wrap(
