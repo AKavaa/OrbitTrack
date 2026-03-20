@@ -12,6 +12,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<Satellite> cachedSatellites =
+      []; //stores the last succesfull API result in memory
   List<Satellite> satellites =
       []; // empty list which will hold all the satellites once the API responds
 
@@ -39,30 +41,47 @@ class _HomeScreenState extends State<HomeScreen> {
     ); // passing the default search query when app loads
   }
 
+  String errorMessage =
+      ''; // error message will be displayed  when the app is offline
+
   Future<void> fetchSatellites(String search) async {
     // async function to allown the program to start a long running task
-    final url = Uri.parse(
-      'https://tle.ivanstanojevic.me/api/tle?search=$search', // using the dynamic variable
-    );
+    // try and catch handle the network errors without the app crashing
+    // Official Documentation: https://dart.dev/language/error-handling
+    try {
+      final url = Uri.parse(
+        'https://tle.ivanstanojevic.me/api/tle?search=$search', // using the dynamic variable
+      );
 
-    final response = await http.get(
-      url,
-    ); // await -> pauses until the server responds
+      final response = await http.get(
+        url,
+      ); // await -> pauses until the server responds
 
-    if (response.statusCode == 200) {
-      // request succesfull
-      final data = jsonDecode(
-        response.body,
-      ); // response.body by default is a raw JSON string, jsonDecode turns it into a Dart Map
+      if (response.statusCode == 200) {
+        // request succesfull
+        final data = jsonDecode(
+          response.body,
+        ); // response.body by default is a raw JSON string, jsonDecode turns it into a Dart Map
+        setState(() {
+          errorMessage = '';
+          satellites = (data['member'] as List)
+              .map((item) => Satellite.fromJson(item))
+              .toList();
+
+          cachedSatellites =
+              satellites; // each time the API succeeds it gets saves into this variable
+        });
+      }
+    } catch (error) {
       setState(() {
-        satellites = (data['member'] as List)
-            .map((item) => Satellite.fromJson(item))
-            .toList();
+        if (cachedSatellites.isNotEmpty) {
+          satellites = cachedSatellites;
+          // if there is not interner connection then show error message
+          errorMessage = 'No Internet Connection, Showing the last results!';
+        } else {
+          errorMessage = 'No Internet Connection, App Is Offline!';
+        }
       });
-
-      // print('Loaded ${satellites.length} satellites');
-      // print('First satellite ${satellites[0].name}');
-      // print(' ${satellites[0].satelliteId}');
     }
   }
 
@@ -77,6 +96,14 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           const SizedBox(height: 8),
+
+          if (errorMessage.isNotEmpty)
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(7),
+              color: Colors.redAccent,
+              child: Text(errorMessage, textAlign: TextAlign.center),
+            ),
 
           // TextField was adapted from Flutter Official Docs: https://api.flutter.dev/flutter/material/TextField-class.html
           //OnSubmitted is activated when the user adds some words or a character inside the input bar
@@ -135,10 +162,21 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             child:
                 satellites
-                    .isEmpty // if is empty will show a circular progress indicator in the middle of the screen
+                    .isEmpty  && errorMessage.isEmpty// if is empty will show a circular progress indicator in the middle of the screen
                 ? const Center(
                     child: CircularProgressIndicator(),
-                  ) // shows loading spinner while the API fetches the data
+                  ) 
+                  :  satellites
+                    .isEmpty  && errorMessage.isNotEmpty
+                    ? Center(
+                      child: Text(
+                        errorMessage,
+                        style: const TextStyle(
+                          fontSize:14,
+                        ),
+                      ),
+                    )
+                    // shows loading spinner while the API fetches the data
                 : ListView.builder(
                     // displays all the satellites from the API
                     itemCount: satellites.length, // all the satellites
