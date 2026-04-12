@@ -1,23 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:orbit_track/screens/splash_screen.dart';
-// import 'screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _isDarkMode = true;
+
+  void toggleTheme() {
+    setState(() {
+      _isDarkMode = !_isDarkMode;
+    });
+  }
+
+  @override                          
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Orbit Track',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const SplashScreen(),
+      debugShowCheckedModeBanner: false, // remove DEBUG banner
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      home: SplashScreen(toggleTheme: toggleTheme),
     );
-  }
-}
+  }                                 
+}                          
