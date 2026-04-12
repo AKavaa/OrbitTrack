@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'home_screen.dart'; // importing the Home Screen to navigate to it after
 
 class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+
+  final VoidCallback toggleTheme;
+  const SplashScreen({super.key, required this.toggleTheme});
 
   @override
   Widget build(BuildContext context) {
@@ -75,10 +77,10 @@ class SplashScreen extends StatelessWidget {
               // adding a button and when pressed moves to the HomeScreen
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const HomeScreen(),
+                      builder: (context) =>  HomeScreen(toggleTheme : toggleTheme),
                     ), // navigates the user to the HomeScreen
                   );
                 },

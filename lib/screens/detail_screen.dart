@@ -3,20 +3,31 @@ import '../satellite.dart';
 
 class DetailedScreen extends StatelessWidget {
   final Satellite satellite;
-  const DetailedScreen({super.key, required this.satellite});
+  final VoidCallback toggleTheme;
+  const DetailedScreen({super.key, required this.satellite, required this.toggleTheme});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[900],
-      appBar: AppBar(
-        backgroundColor: Colors.blue[850],
-        title: Text(
-          satellite.name,
-          style: const TextStyle(color: Colors.blueGrey),
-        ),
-        iconTheme: IconThemeData(color: Colors.blueGrey),
+     appBar: AppBar(
+  backgroundColor: Colors.blue[850],
+  title: Text(
+    satellite.name,
+    style: const TextStyle(color: Colors.blueGrey),
+  ),
+  iconTheme: const IconThemeData(color: Colors.blueGrey),
+  actions: [
+    IconButton(
+      icon: Icon(
+        Theme.of(context).brightness == Brightness.dark
+            ? Icons.light_mode
+            : Icons.dark_mode,
       ),
+      onPressed: toggleTheme,
+    ),
+  ],
+),
 
       body: SingleChildScrollView(
         // SingleChildScrollView to be able to scroll
