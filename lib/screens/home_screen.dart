@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // Official Documentation: https://dart.dev/language/error-handling
     try {
       final url = Uri.parse(
-        'https://tle.ivanstanojevic.me/api/tle?search=$search',
+        'https://tle.ivanstanojevic.me/api/tle?search=$search', // using the dynamic variable
       );
 
       final response = await http.get(
