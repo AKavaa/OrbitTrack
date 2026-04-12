@@ -77,7 +77,7 @@ class SplashScreen extends StatelessWidget {
               // adding a button and when pressed moves to the HomeScreen
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) =>  HomeScreen(toggleTheme : toggleTheme),

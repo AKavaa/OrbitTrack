@@ -91,6 +91,16 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: const Text('Orbit Track'),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Theme.of(context).brightness == Brightness.dark
+                  ? Icons.light_mode
+                  : Icons.dark_mode,
+            ),
+            onPressed: widget.toggleTheme,
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -189,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    DetailedScreen(satellite: satellite),
+                                    DetailedScreen(satellite: satellite, toggleTheme: widget.toggleTheme),
                               ),
                             );
                           },

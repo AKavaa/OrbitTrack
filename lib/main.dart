@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:orbit_track/screens/splash_screen.dart';
+import 'package:orbit_track/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
